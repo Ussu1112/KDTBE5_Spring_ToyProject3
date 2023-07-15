@@ -14,6 +14,8 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -55,6 +57,17 @@ public class BoardService {
         }
 
     }
+
+    @Transactional
+    public Board findBoard(Long id){
+        Optional<Board> board = boardRepository.findById(id);
+        if(board.isPresent()){
+            return board.get();
+        }
+        //Todo 검색결과가 없음
+        throw new NoSuchElementException();
+    }
+
 
     @Transactional
     public List<BoardResponse.SelectDTO> findBoardList() {
