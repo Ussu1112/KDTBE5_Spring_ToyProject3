@@ -37,8 +37,11 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String boardList(Model model, @PageableDefault(sort = "id", size = 6, direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<BoardResponse.SelectDTO> boardList = boardService.pageList(pageable);
+    public String boardList(
+                            String category,
+                            Model model,
+                            @PageableDefault(sort = "id", size = 6, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<BoardResponse.SelectDTO> boardList = boardService.pageList(category, pageable);
         List<Long> indexes;
         long index = (boardList.getTotalElements() - 1) / boardList.getSize();
         indexes = LongStream.rangeClosed(0, index).boxed().collect(Collectors.toList());
