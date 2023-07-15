@@ -73,8 +73,9 @@ public class BoardService {
     }
 
     @Transactional
-    public Page<BoardResponse.SelectDTO> pageList(Pageable pageable) {
-        return boardRepository.findAll(pageable).map(BoardResponse.SelectDTO::new);
+    public Page<BoardResponse.SelectDTO> pageList(String category, Pageable pageable) {
+        return boardRepository.findByUser_Roles(category, pageable);
+//        return boardRepository.findAll(pageable).map(BoardResponse.SelectDTO::new);
     }
 
     @Transactional
