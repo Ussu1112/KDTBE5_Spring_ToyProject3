@@ -16,4 +16,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Query(value = "SELECT b FROM Board b WHERE b.content LIKE %:content%")
     Page<BoardResponse.SelectDTO> findByContent(@Param("content") String content, Pageable pageable);
+
+    Page<BoardResponse.SelectDTO> findByUser_Roles(String role);
 }
