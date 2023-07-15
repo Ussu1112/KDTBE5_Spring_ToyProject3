@@ -72,7 +72,7 @@ public class BoardController {
 
     @GetMapping("/view/{id}")
     public String boardView(@PathVariable Long id) {
-
+        boardService.findBoard(id);
         return "boardView";
     }
 
