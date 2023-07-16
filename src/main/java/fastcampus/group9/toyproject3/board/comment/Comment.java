@@ -1,5 +1,6 @@
-package fastcampus.group9.toyproject3.board;
+package fastcampus.group9.toyproject3.board.comment;
 
+import fastcampus.group9.toyproject3.board.Board;
 import fastcampus.group9.toyproject3.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
