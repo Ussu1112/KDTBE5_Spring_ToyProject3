@@ -105,4 +105,9 @@ public class BoardController {
         return "boardList";
     }
 
+    @DeleteMapping("/view/{boardId}/delete/{commentId}")
+    public String deleteComment(@PathVariable Long boardId, @PathVariable Long commentId){
+        commentService.deleteComment(commentId);
+        return "redirect:/view/{boardId}";
+    }
 }
