@@ -13,8 +13,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public List<Comment> findCommentList(Long boardId){
-        List<Comment>  commentList = commentRepository.findAllByBoard_Id(boardId);
+    public List<Comment> findCommentList(Long boardId) {
+        List<Comment> commentList = commentRepository.findAllByBoard_Id(boardId);
         return commentList;
     }
 }

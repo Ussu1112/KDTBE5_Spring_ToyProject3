@@ -1,5 +1,7 @@
 package fastcampus.group9.toyproject3.board;
 
+import fastcampus.group9.toyproject3.board.comment.Comment;
+import fastcampus.group9.toyproject3.board.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,7 @@ import java.util.stream.LongStream;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/write")
     public String boardSave() {
@@ -73,9 +76,13 @@ public class BoardController {
     @GetMapping("/view/{id}")
     public String boardView(@PathVariable Long id, Model model) {
         model.addAttribute("board", boardService.findBoard(id));
+        model.addAttribute("comments", readComments(id));
         return "boardView";
     }
 
+    private List<Comment> readComments(Long boardId){
+        return commentService.findCommentList(boardId);
+    }
     @GetMapping("/edit/{id}")
     public String boardModify(@PathVariable Long id, BoardRequest.CreateDTO board, Model model) {
         model.addAttribute("board", board);
