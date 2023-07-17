@@ -71,8 +71,8 @@ public class BoardController {
     }
 
     @GetMapping("/view/{id}")
-    public String boardView(@PathVariable Long id) {
-        boardService.findBoard(id);
+    public String boardView(@PathVariable Long id, Model model) {
+        model.addAttribute("board", boardService.findBoard(id));
         return "boardView";
     }
 
