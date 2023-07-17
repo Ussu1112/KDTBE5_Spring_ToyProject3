@@ -1,6 +1,7 @@
 package fastcampus.group9.toyproject3.board;
 
 import fastcampus.group9.toyproject3.board.comment.Comment;
+import fastcampus.group9.toyproject3.board.comment.CommentResponse;
 import fastcampus.group9.toyproject3.board.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -80,7 +81,7 @@ public class BoardController {
         return "boardView";
     }
 
-    private List<Comment> readComments(Long boardId){
+    private List<CommentResponse.SelectDTO> readComments(Long boardId){
         return commentService.findCommentList(boardId);
     }
     @GetMapping("/edit/{id}")
