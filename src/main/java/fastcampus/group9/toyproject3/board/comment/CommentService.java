@@ -17,4 +17,9 @@ public class CommentService {
         List<CommentResponse.SelectDTO> commentList = commentRepository.findAllByBoard_Id(boardId);
         return commentList;
     }
+
+    @Transactional
+    public void deleteComment(Long id){
+        commentRepository.deleteById(id);
+    }
 }
