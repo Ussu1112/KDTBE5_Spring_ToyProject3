@@ -1,8 +1,6 @@
 package fastcampus.group9.toyproject3.board;
 
-import fastcampus.group9.toyproject3.board.comment.Comment;
-import fastcampus.group9.toyproject3.board.comment.CommentResponse;
-import fastcampus.group9.toyproject3.board.comment.CommentService;
+import fastcampus.group9.toyproject3.board.comment.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -109,5 +107,11 @@ public class BoardController {
     public String deleteComment(@PathVariable Long boardId, @PathVariable Long commentId){
         commentService.deleteComment(commentId);
         return "redirect:/view/{boardId}";
+    }
+
+    @PostMapping("view/{boardId}/write")
+    public String saveComment(@PathVariable Long boardId, CommentRequest.CreateDTO comment){
+        commentService.saveComment(comment.toEntity());
+        return "redirect:board/view/{boardId}";
     }
 }
