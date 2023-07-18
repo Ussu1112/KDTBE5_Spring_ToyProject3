@@ -1,13 +1,15 @@
 package fastcampus.group9.toyproject3.board;
 
+import fastcampus.group9.toyproject3._core.utils.BaseTimeEntity;
+import fastcampus.group9.toyproject3.board.Thumbnail.Thumbnail;
 import fastcampus.group9.toyproject3.user.User;
+import fastcampus.group9.toyproject3.user.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,20 +17,21 @@ import java.time.LocalDateTime;
 @Table(name = "board_tb")
 @Entity
 @Builder
-public class Board {
+public class Board extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    @Column(length = 50000)
     private String content;
     private String thumbnail;
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "nickName")
-    private User user;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String author;
+    private UserRole userRole;
     private boolean isReported;
-    private String role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+    @OneToOne(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Thumbnail thumbnailEntity;
 
     public void update(String title, String content) {
         this.title = title;

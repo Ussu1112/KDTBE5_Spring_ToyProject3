@@ -1,5 +1,6 @@
 package fastcampus.group9.toyproject3.board.Thumbnail;
 
+import fastcampus.group9.toyproject3._core.utils.BaseTimeEntity;
 import fastcampus.group9.toyproject3.board.Board;
 import lombok.*;
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "thumbnail_tb")
 @Entity
 @Builder
-public class Thumbnail {
+public class Thumbnail extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,10 +23,7 @@ public class Thumbnail {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
 
-    //TODO, Setter 빼고 DTO로 설계하기 vs 그냥 냅두기
     public static Thumbnail toEntity(Board board, String originalFileName,String storedFileName) {
         Thumbnail thumbnail = new Thumbnail();
         thumbnail.setOriginalFileName(originalFileName);
