@@ -5,8 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 public class UserRequest {
 
@@ -25,14 +23,14 @@ public class UserRequest {
         private String email;
 
         @NotEmpty (message = "닉네임을 입력해주세요.")
-        private String nickname;
+        private String nickName;
 
         public User toEntity() {
             return User.builder()
                     .username(username)
                     .password(password)
                     .email(email)
-                    .nickname(nickname)
+                    .nickName(nickName)
                     .role(UserRole.SPROUT)
                     .build();
         }
