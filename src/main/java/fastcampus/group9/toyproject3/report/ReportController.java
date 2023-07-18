@@ -1,6 +1,5 @@
 package fastcampus.group9.toyproject3.report;
 
-import fastcampus.group9.toyproject3.board.Board;
 import fastcampus.group9.toyproject3.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
