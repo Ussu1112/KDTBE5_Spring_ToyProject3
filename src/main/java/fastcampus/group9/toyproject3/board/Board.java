@@ -23,7 +23,7 @@ public class Board {
     private String content;
     private String thumbnail;
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "fullName")
+    @JoinColumn(referencedColumnName = "nickName")
     private User user;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
