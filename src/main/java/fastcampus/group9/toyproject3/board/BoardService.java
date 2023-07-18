@@ -14,6 +14,8 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -57,6 +59,17 @@ public class BoardService {
     }
 
     @Transactional
+    public Board findBoard(Long id){
+        Optional<Board> board = boardRepository.findById(id);
+        if(board.isPresent()){
+            return board.get();
+        }
+        //Todo 검색결과가 없음
+        throw new NoSuchElementException();
+    }
+
+
+    @Transactional
     public List<BoardResponse.SelectDTO> findBoardList() {
         List<Board> list = boardRepository.findAll();
         return list.stream().map(BoardResponse.SelectDTO::new).collect(Collectors.toList());
@@ -73,8 +86,9 @@ public class BoardService {
     }
 
     @Transactional
-    public Page<BoardResponse.SelectDTO> pageList(Pageable pageable) {
-        return boardRepository.findAll(pageable).map(BoardResponse.SelectDTO::new);
+    public Page<BoardResponse.SelectDTO> pageList(String category, Pageable pageable) {
+        return boardRepository.findByUser_Roles(category, pageable);
+//        return boardRepository.findAll(pageable).map(BoardResponse.SelectDTO::new);
     }
 
     @Transactional

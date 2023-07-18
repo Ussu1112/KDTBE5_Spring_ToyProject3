@@ -1,5 +1,6 @@
 package fastcampus.group9.toyproject3.board;
 
+import fastcampus.group9.toyproject3.board.comment.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.stream.LongStream;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/write")
     public String boardSave() {
@@ -37,8 +39,11 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String boardList(Model model, @PageableDefault(sort = "id", size = 6, direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<BoardResponse.SelectDTO> boardList = boardService.pageList(pageable);
+    public String boardList(
+                            String category,
+                            Model model,
+                            @PageableDefault(sort = "id", size = 6, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<BoardResponse.SelectDTO> boardList = boardService.pageList(category, pageable);
         List<Long> indexes;
         long index = (boardList.getTotalElements() - 1) / boardList.getSize();
         indexes = LongStream.rangeClosed(0, index).boxed().collect(Collectors.toList());
@@ -68,11 +73,15 @@ public class BoardController {
     }
 
     @GetMapping("/view/{id}")
-    public String boardView(@PathVariable Long id) {
-
+    public String boardView(@PathVariable Long id, Model model) {
+        model.addAttribute("board", boardService.findBoard(id));
+        model.addAttribute("comments", readComments(id));
         return "boardView";
     }
 
+    private List<CommentResponse.SelectDTO> readComments(Long boardId){
+        return commentService.findCommentList(boardId);
+    }
     @GetMapping("/edit/{id}")
     public String boardModify(@PathVariable Long id, BoardRequest.CreateDTO board, Model model) {
         model.addAttribute("board", board);
@@ -94,4 +103,15 @@ public class BoardController {
         return "boardList";
     }
 
+    @DeleteMapping("/view/{boardId}/delete/{commentId}")
+    public String deleteComment(@PathVariable Long boardId, @PathVariable Long commentId){
+        commentService.deleteComment(commentId);
+        return "redirect:/view/{boardId}";
+    }
+
+    @PostMapping("view/{boardId}/write")
+    public String saveComment(@PathVariable Long boardId, CommentRequest.CreateDTO comment){
+        commentService.saveComment(comment.toEntity());
+        return "redirect:board/view/{boardId}";
+    }
 }
