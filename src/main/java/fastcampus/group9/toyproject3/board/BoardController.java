@@ -1,16 +1,18 @@
 package fastcampus.group9.toyproject3.board;
 
+import fastcampus.group9.toyproject3._core.security.CustomUserDetails;
+import fastcampus.group9.toyproject3.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -30,10 +32,13 @@ public class BoardController {
 
     @PostMapping("/save")
     public String boardSave(BoardRequest.CreateDTO board) throws IOException {
-        board.setCreatedAt(LocalDateTime.now());
-        boardService.save(board);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) principal;
+        User user = userDetails.getUser();
+        boardService.save(board, user);
 
         return "redirect:list";
+        //return "redirect:view/" + board.getId();
     }
 
     @GetMapping("/list")
@@ -74,24 +79,25 @@ public class BoardController {
     }
 
     @GetMapping("/edit/{id}")
-    public String boardModify(@PathVariable Long id, BoardRequest.CreateDTO board, Model model) {
+    public String boardModify(@PathVariable Long id, Model model) {
+        BoardResponse.SelectDTO board = boardService.findBoard(id);
         model.addAttribute("board", board);
 
-        return "boardList";
+        return "boardEdit";
     }
 
-    @PutMapping("/update/{id}")
+    @PostMapping("/update/{id}")
     public String boardModify(@PathVariable Long id, BoardRequest.CreateDTO board) {
         boardService.update(id, board);
 
         return "redirect:board/view/{id}";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String boardDelete(@PathVariable Long id) {
         boardService.delete(id);
 
-        return "boardList";
+        return "redirect:/board/list";
     }
 
 }
