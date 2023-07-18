@@ -2,6 +2,7 @@ package fastcampus.group9.toyproject3._core.utils;
 
 import fastcampus.group9.toyproject3.user.User;
 import fastcampus.group9.toyproject3.user.UserRepository;
+import fastcampus.group9.toyproject3.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -21,12 +22,14 @@ public class DBInit {
                     .password("1234")
                     .email("ssar@nate.com")
                     .nickname("쌀")
+                    .role(UserRole.SPROUT)
                     .build();
             User admin = User.builder()
                     .username("admin")
                     .password("1234")
                     .email("admin@admin.com")
                     .nickname("관리자계정")
+                    .role(UserRole.ADMIN)
                     .build();
             userRepository.saveAll(Arrays.asList(user, admin));
         };

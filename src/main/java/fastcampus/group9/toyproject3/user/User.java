@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -18,12 +17,12 @@ public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 20)
-    private int id;
+    private Long Id;
 
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false, length = 120) // 패스워드 인코딩(BCrypt)
+    @Column(nullable = false, length = 120)
     private String password;
 
     @Column(nullable = false, length = 20)
@@ -33,19 +32,19 @@ public class User extends BaseTimeEntity {
     private String nickname;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role; // 새싹회원(SPROUT), 우수회원(VIP)
+    private UserRole role;
 
-    @ColumnDefault("false")
-    private Boolean is_blacked; // true, false
+    @Column(columnDefinition="BOOLEAN DEFAULT false")
+    private boolean isBlacked;
 
     @Builder
-    public User(int id, String username, String password, String email, String nickname, UserRole role, Boolean is_blacked) {
-        this.id = id;
+    public User(Long id, String username, String password, String email, String nickname, UserRole role, boolean isBlacked) {
+        Id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.nickname = nickname;
         this.role = role;
-        this.is_blacked = is_blacked;
+        this.isBlacked = isBlacked;
     }
 }
