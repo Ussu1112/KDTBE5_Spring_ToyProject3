@@ -30,7 +30,7 @@ public class User extends BaseTimeEntity {
     private String email;
 
     @Column(nullable = false, length = 20)
-    private String nickName;
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     private UserRole role; // 새싹회원(SPROUT), 우수회원(VIP)
@@ -39,12 +39,12 @@ public class User extends BaseTimeEntity {
     private Boolean is_blacked; // true, false
 
     @Builder
-    public User(int id, String username, String password, String email, String nickName, UserRole role, Boolean is_blacked) {
+    public User(int id, String username, String password, String email, String nickname, UserRole role, Boolean is_blacked) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.role = role;
         this.is_blacked = is_blacked;
     }

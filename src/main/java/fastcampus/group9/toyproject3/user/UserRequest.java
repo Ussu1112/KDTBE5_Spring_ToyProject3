@@ -23,14 +23,14 @@ public class UserRequest {
         private String email;
 
         @NotEmpty (message = "닉네임을 입력해주세요.")
-        private String nickName;
+        private String nickname;
 
         public User toEntity() {
             return User.builder()
                     .username(username)
                     .password(password)
                     .email(email)
-                    .nickName(nickName)
+                    .nickname(nickname)
                     .role(UserRole.SPROUT)
                     .build();
         }
