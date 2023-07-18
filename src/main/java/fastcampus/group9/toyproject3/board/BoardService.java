@@ -108,7 +108,7 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponse.SelectDTO findBoard(Long id) {
+    public BoardResponse.SelectDTO findBoardById(Long id) {
         return boardRepository.findById(id).map(BoardResponse.SelectDTO::new).orElseThrow(() -> new NoSuchElementException("게시글 없음"));
     }
 

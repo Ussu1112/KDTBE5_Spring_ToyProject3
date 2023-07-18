@@ -80,7 +80,7 @@ public class BoardController {
 
     @GetMapping("/edit/{id}")
     public String boardModify(@PathVariable Long id, Model model) {
-        BoardResponse.SelectDTO board = boardService.findBoard(id);
+        BoardResponse.SelectDTO board = boardService.findBoardById(id);
         model.addAttribute("board", board);
 
         return "boardEdit";
