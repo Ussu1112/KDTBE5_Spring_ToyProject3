@@ -2,7 +2,6 @@ package fastcampus.group9.toyproject3.board;
 
 import fastcampus.group9.toyproject3.board.Thumbnail.Thumbnail;
 import fastcampus.group9.toyproject3.board.Thumbnail.ThumbnailRepository;
-import fastcampus.group9.toyproject3.user.User;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.data.domain.Page;
@@ -14,11 +13,9 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,26 +27,17 @@ public class BoardService {
     private final ThumbnailRepository thumbnailRepository;
     private final EntityManager entityManager;
 
-    private static final String FOLDER_PATH = "C:/KDTBE5_Board_thumbnails/";
-
-    private void mkdir() throws IOException {
-        boolean folderExist = Files.exists(Paths.get(FOLDER_PATH));
-        if (!folderExist) {
-            Path path = Paths.get(FOLDER_PATH);
-            Files.createDirectories(path);
-        }
-    }
-
     @Transactional
-    public void save(BoardRequest.CreateDTO parameter, User user) throws IOException {
-        parameter.setUser(user);
-        //user_role 0?
-        parameter.setAuthor(user.getNickname());
-        parameter.setUserRole(user.getRole());
+    public void save(BoardRequest.CreateDTO parameter) throws IOException {
+        //게시글 정보 삽입 - html에서 넣어도 되긴 함
+        //TODO Member의 Principal값 넣어서 저장
+        parameter.setRole("user");
         parameter.setReported(false);
 
         //파일처리 메소드
+        //TODO, 파일경로 설정방법 찾기
         if (parameter.getBoardFile().isEmpty()) {
+            parameter.setThumbnail("defaultThumbnail.png");
             boardRepository.save(parameter.toEntity());
         } else {
             MultipartFile boardFile = parameter.getBoardFile();
@@ -57,8 +45,7 @@ public class BoardService {
             String originalFilename = boardFile.getOriginalFilename();
             UUID uuid = UUID.randomUUID();
             String storedFileName = uuid + "_" + originalFilename;
-            String path = FOLDER_PATH + storedFileName;
-            mkdir();
+            String path = "C:/KDTBE5_Board_thumbnails/" + storedFileName;
             parameter.setThumbnail(storedFileName);
             boardFile.transferTo(new File(path));
             Thumbnails.of(new File(path)).size(450, 300).toFile(new File(path));
@@ -70,6 +57,17 @@ public class BoardService {
         }
 
     }
+
+    @Transactional
+    public Board findBoard(Long id){
+        Optional<Board> board = boardRepository.findById(id);
+        if(board.isPresent()){
+            return board.get();
+        }
+        //Todo 검색결과가 없음
+        throw new NoSuchElementException();
+    }
+
 
     @Transactional
     public List<BoardResponse.SelectDTO> findBoardList() {
@@ -88,8 +86,9 @@ public class BoardService {
     }
 
     @Transactional
-    public Page<BoardResponse.SelectDTO> pageList(Pageable pageable) {
-        return boardRepository.findAll(pageable).map(BoardResponse.SelectDTO::new);
+    public Page<BoardResponse.SelectDTO> pageList(String category, Pageable pageable) {
+        return boardRepository.findByUser_Roles(category, pageable);
+//        return boardRepository.findAll(pageable).map(BoardResponse.SelectDTO::new);
     }
 
     @Transactional
@@ -105,11 +104,6 @@ public class BoardService {
         }
         //TODO 예외처리, 검색결과가 없음
         throw new IllegalArgumentException();
-    }
-
-    @Transactional
-    public BoardResponse.SelectDTO findBoardById(Long id) {
-        return boardRepository.findById(id).map(BoardResponse.SelectDTO::new).orElseThrow(() -> new NoSuchElementException("게시글 없음"));
     }
 
     @Transactional
