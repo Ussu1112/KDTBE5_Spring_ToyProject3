@@ -1,4 +1,4 @@
-package fastcampus.group9.toyproject3._core.erros.exception;
+package fastcampus.group9.toyproject3._core.errors.exception;
 
 import fastcampus.group9.toyproject3._core.utils.ApiUtils;
 import lombok.Getter;
@@ -10,7 +10,6 @@ public class Exception500 extends RuntimeException {
     public Exception500(String message) {
         super(message);
     }
-
 
     public ApiUtils.ApiResult<?> body() {
         return ApiUtils.error(getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

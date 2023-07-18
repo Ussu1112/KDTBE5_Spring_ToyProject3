@@ -1,6 +1,6 @@
-package fastcampus.group9.toyproject3._core.erros;
+package fastcampus.group9.toyproject3._core.errors;
 
-import fastcampus.group9.toyproject3._core.erros.exception.Exception400;
+import fastcampus.group9.toyproject3._core.errors.exception.Exception400;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

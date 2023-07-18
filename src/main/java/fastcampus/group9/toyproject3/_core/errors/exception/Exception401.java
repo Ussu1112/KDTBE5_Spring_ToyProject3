@@ -1,4 +1,4 @@
-package fastcampus.group9.toyproject3._core.erros.exception;
+package fastcampus.group9.toyproject3._core.errors.exception;
 
 
 import fastcampus.group9.toyproject3._core.utils.ApiUtils;

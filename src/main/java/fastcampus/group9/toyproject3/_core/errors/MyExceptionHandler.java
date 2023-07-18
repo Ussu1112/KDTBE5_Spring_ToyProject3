@@ -1,6 +1,6 @@
-package fastcampus.group9.toyproject3._core.erros;
+package fastcampus.group9.toyproject3._core.errors;
 
-import fastcampus.group9.toyproject3._core.erros.exception.*;
+import fastcampus.group9.toyproject3._core.errors.exception.*;
 import fastcampus.group9.toyproject3._core.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

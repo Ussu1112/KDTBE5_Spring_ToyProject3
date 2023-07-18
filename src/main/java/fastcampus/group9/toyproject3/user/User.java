@@ -1,63 +1,50 @@
 package fastcampus.group9.toyproject3.user;
 
+import fastcampus.group9.toyproject3._core.utils.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
-
+@ToString
 @NoArgsConstructor
 @Getter
 @Table(name = "user_tb")
 @Entity
-public class User { // extends 시간설정 (상속)
-
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(length = 20)
+    private Long Id;
 
-    @Column(unique = true, nullable = false, length = 20)
+    @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false, length = 120) // 패스워드 인코딩(BCrypt)
+    @Column(nullable = false, length = 120)
     private String password;
 
     @Column(nullable = false, length = 20)
     private String email;
+
     @Column(nullable = false, length = 20)
-    private String fullName;
+    private String nickname;
 
-    private String roles; // USER, ADMIN
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
-    private Boolean status; // true, false
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+    @Column(columnDefinition="BOOLEAN DEFAULT false")
+    private boolean isBlacked;
 
     @Builder
-    public User(Long id, String username, String password, String email, String fullName, String roles, Boolean status, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
+    public User(Long id, String username, String password, String email, String nickname, UserRole role, boolean isBlacked) {
+        Id = id;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.fullName = fullName;
-        this.roles = roles;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.nickname = nickname;
+        this.role = role;
+        this.isBlacked = isBlacked;
     }
 }
