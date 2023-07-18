@@ -23,10 +23,12 @@
   <div class="row row-cols-1 row-cols-md-3">
     <div class="col" th:each="board : ${list}">
       <div class="card">
+        <h5 class="card-header" th:text="${board.id}"></h5>
         <img class="card-img-top" th:src="@{|/upload/${board.thumbnail}|}" alt="...">
         <div class="card-body">
-          <h5 class="card-title" th:text="${board.getTitle()}">Title</h5>
-          <div class="card-text" th:text="${board.getContent()}">Content</div>
+          <h5 class="card-title" th:text="${board.title}">Title</h5>
+          <h6 class="card-subtitle" th:text="${board.author}">User</h6>
+          <div class="card-text" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden" th:text="${board.content}">Content</div>
         </div>
       </div>
     </div>
