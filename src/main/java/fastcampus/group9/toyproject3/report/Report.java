@@ -1,12 +1,20 @@
 package fastcampus.group9.toyproject3.report;
 
 import fastcampus.group9.toyproject3.board.Board;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-public class ReportList {
+@Getter
+public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,11 +36,12 @@ public class ReportList {
     @PrePersist
     private void prePersist() {
         this.createdAt = LocalDateTime.now();
-        this.updatedAt=createdAt;
+        this.updatedAt = createdAt;
+        this.reportFlag = false;
     }
 
     @PreUpdate
-    private void preUpdate(){
+    private void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 }
