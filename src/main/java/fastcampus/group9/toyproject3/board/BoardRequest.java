@@ -1,11 +1,10 @@
 package fastcampus.group9.toyproject3.board;
 
 import fastcampus.group9.toyproject3.user.User;
+import fastcampus.group9.toyproject3.user.UserRole;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDateTime;
 
 public class BoardRequest {
 
@@ -17,9 +16,9 @@ public class BoardRequest {
         private String title;
         private String content;
         private String thumbnail;
+        private String author;
         private User user;
-        private LocalDateTime createdAt;
-        private String role;
+        private UserRole userRole;
         private boolean isReported;
 
         //파일관리
@@ -33,9 +32,9 @@ public class BoardRequest {
                     .title(this.title)
                     .content(this.content)
                     .thumbnail(this.thumbnail)
+                    .author(this.author)
                     .user(this.user)
-                    .createdAt(LocalDateTime.now())
-                    .role(this.role)
+                    .userRole(this.userRole)
                     .isReported(this.isReported)
                     .build();
         }
