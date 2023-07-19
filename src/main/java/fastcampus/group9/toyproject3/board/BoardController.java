@@ -1,17 +1,21 @@
 package fastcampus.group9.toyproject3.board;
 
-import fastcampus.group9.toyproject3.board.comment.*;
+import fastcampus.group9.toyproject3._core.security.CustomUserDetails;
+import fastcampus.group9.toyproject3.board.comment.CommentRequest;
+import fastcampus.group9.toyproject3.board.comment.CommentResponse;
+import fastcampus.group9.toyproject3.board.comment.CommentService;
+import fastcampus.group9.toyproject3.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -32,17 +36,20 @@ public class BoardController {
 
     @PostMapping("/save")
     public String boardSave(BoardRequest.CreateDTO board) throws IOException {
-        board.setCreatedAt(LocalDateTime.now());
-        boardService.save(board);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) principal;
+        User user = userDetails.getUser();
+        boardService.save(board, user);
 
         return "redirect:list";
+        //return "redirect:view/" + board.getId();
     }
 
     @GetMapping("/list")
     public String boardList(
-                            String category,
-                            Model model,
-                            @PageableDefault(sort = "id", size = 6, direction = Sort.Direction.DESC) Pageable pageable) {
+            String category,
+            Model model,
+            @PageableDefault(sort = "id", size = 6, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<BoardResponse.SelectDTO> boardList = boardService.pageList(category, pageable);
         List<Long> indexes;
         long index = (boardList.getTotalElements() - 1) / boardList.getSize();
@@ -79,38 +86,40 @@ public class BoardController {
         return "boardView";
     }
 
-    private List<CommentResponse.SelectDTO> readComments(Long boardId){
+    private List<CommentResponse.SelectDTO> readComments(Long boardId) {
         return commentService.findCommentList(boardId);
     }
+
     @GetMapping("/edit/{id}")
-    public String boardModify(@PathVariable Long id, BoardRequest.CreateDTO board, Model model) {
+    public String boardModify(@PathVariable Long id, Model model) {
+        BoardResponse.SelectDTO board = boardService.findBoardById(id);
         model.addAttribute("board", board);
 
-        return "boardList";
+        return "boardEdit";
     }
 
-    @PutMapping("/update/{id}")
+    @PostMapping("/update/{id}")
     public String boardModify(@PathVariable Long id, BoardRequest.CreateDTO board) {
         boardService.update(id, board);
 
-        return "redirect:board/view/{id}";
+        return "redirect:/board/view/{id}";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String boardDelete(@PathVariable Long id) {
         boardService.delete(id);
 
-        return "boardList";
+        return "redirect:/board/list";
     }
 
     @DeleteMapping("/view/{boardId}/delete/{commentId}")
-    public String deleteComment(@PathVariable Long boardId, @PathVariable Long commentId){
+    public String deleteComment(@PathVariable Long boardId, @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
         return "redirect:/view/{boardId}";
     }
 
     @PostMapping("view/{boardId}/write")
-    public String saveComment(@PathVariable Long boardId, CommentRequest.CreateDTO comment){
+    public String saveComment(@PathVariable Long boardId, CommentRequest.CreateDTO comment) {
         commentService.saveComment(comment.toEntity());
         return "redirect:board/view/{boardId}";
     }
