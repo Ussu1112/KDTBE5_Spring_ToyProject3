@@ -23,11 +23,9 @@ public class Comment {
     private Long id;
 
     @ManyToOne
-    @Column(nullable = false)
     private Board board;
 
     @ManyToOne
-    @Column(nullable = false)
     private User user;
 
     @Size(max = 50)

@@ -20,7 +20,6 @@ public class Report {
     private Long id;
 
     @ManyToOne
-    @Column(nullable = false)
     private Board board;
 
     @Column(nullable = false)
