@@ -1,5 +1,6 @@
 package fastcampus.group9.toyproject3.user;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,6 +31,14 @@ public class UserRequest {
         @Pattern(regexp = "^[a-zA-Z가-힣]{1,20}$", message = "한글/영문 1~20자 이내로 작성해주세요")
         private String nickname;
 
+        @Builder
+        public JoinDTO(String username, String password, String email, String nickname) {
+            this.username = username;
+            this.password = password;
+            this.email = email;
+            this.nickname = nickname;
+        }
+
         public User toEntity() {
             return User.builder()
                     .username(username)
@@ -57,4 +66,22 @@ public class UserRequest {
             return loginDTO;
         }
     }
+
+    @Setter
+    @Getter
+    public static class UpdateDTO {
+
+        private Long Id;
+
+        @NotEmpty
+        @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", message = "이메일 형식으로 작성해주세요")
+        private String email;
+
+        @NotEmpty
+        @Pattern(regexp = "^[a-zA-Z가-힣]{1,20}$", message = "한글/영문 1~20자 이내로 작성해주세요")
+        private String nickname;
+
+    }
+
+
 }

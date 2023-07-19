@@ -10,15 +10,18 @@
   <tr>
     <th>username</th>
     <th>email</th>
+    <th>nickName</th>
     <th>role</th>
     <th>createdAt</th>
   </tr>
   <tr>
     <td th:text="${user.username}"></td>
     <td th:text="${user.email}"></td>
+    <td th:text="${user.nickname}"></td>
     <td th:text="${user.role}"></td>
     <td th:text="${user.createdAt}"></td>
   </tr>
 </table>
+<a th:href="@{|/user/updateForm/${user.id}|}">수정하기</a>
 </body>
 </html>
