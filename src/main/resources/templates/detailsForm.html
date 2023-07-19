@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>detailsForm</title>
+</head>
+<body>
+<table>
+  <tr>
+    <th>username</th>
+    <th>email</th>
+    <th>role</th>
+    <th>createdAt</th>
+  </tr>
+  <tr>
+    <td th:text="${user.username}"></td>
+    <td th:text="${user.email}"></td>
+    <td th:text="${user.role}"></td>
+    <td th:text="${user.createdAt}"></td>
+  </tr>
+</table>
+</body>
+</html>
