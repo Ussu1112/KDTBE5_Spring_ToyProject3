@@ -14,8 +14,9 @@ public class CommentService {
 
     @Transactional
     public List<CommentResponse.SelectDTO> findCommentList(Long boardId) {
-        List<CommentResponse.SelectDTO> commentList = commentRepository.findAllByBoard_Id(boardId);
-        return commentList;
+        //List<CommentResponse.SelectDTO> commentList = commentRepository.findAllByBoard_Id(boardId);
+        //return commentList;
+        return null;
     }
 
     @Transactional

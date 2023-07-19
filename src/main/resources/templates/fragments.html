@@ -23,6 +23,10 @@
                 <a class="nav-link" href="#" th:href="@{/board/list}">게시판 <span class="sr-only"
                                                                                 th:if="${menu} == 'board'">(current)</span></a>
             </li>
+            <li class="nav-item" th:classappend="${menu} == 'board'? 'active'">
+                <a class="nav-link" href="#" th:href="@{/board/write}">게시글 작성 <span class="sr-only"
+                                                                                th:if="${menu} == 'board'">(current)</span></a>
+            </li>
         </ul>
         <a class="btn btn-secondary mr-2 my-2 my-sm-0" th:href="@{/user/joinForm}" sec:authorize="!isAuthenticated()">register</a>
         <a class="btn btn-secondary my-2 my-sm-0" th:href="@{/login}" sec:authorize="!isAuthenticated()">login</a> <!-- 로그인이 안된 경우  -->
