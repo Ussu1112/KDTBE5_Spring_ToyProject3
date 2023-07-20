@@ -47,23 +47,71 @@
     <div class="container mt-4">
         <div class="mt-4">
             <h3>댓글</h3>
+            <!-- TODO 자식 댓글까지 표시하면 완성 -->
             <div class="card mb-2" th:each="comment : ${comments}">
                 <div class="card-body">
                     <p class="mb-0"><strong th:text="${comment.user.username}"></strong></p>
                     <p th:text="${comment.content}"></p>
                 </div>
-                <!-- 댓글 삭제 버튼 -->
                 <div class="card-footer">
+                    <!-- 답글 달기 -->
+                    <button onclick="toggleReplyForm()" type="submit" class="btn btn-sm btn-info">답글 달기</button>
+                    <br/>
+                    <form id="replyForm"
+                          th:action="@{/board/view/{id}/write/(id=${board.id})}"
+                          method="post"
+                          style="display: none">
+                        <input type="hidden" name="board" th:value="${board.id}">
+                        <div class="form-group">
+                            <label for="reply">답글 입력</label>
+                            <input type="hidden" name="parentComment" th:value="${comment.id}">
+                            <textarea class="form-control" id="reply" name="content" rows="3"></textarea>
+                        </div>
+                        <br/>
+                        <button type="submit" class="btn btn-primary">댓글 등록</button>
+                    </form>
+                    <!-- 댓글 삭제 버튼 -->
                     <form id="deleteComment"
                           th:action="@{/board/view/{boardId}/delete/{commentId}(boardId=${board.id}, commentId=${comment.id})}"
                           method="post"
                           th:if="${currentUser != null and currentUser.nickname == comment.user.nickname}">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <button type="submit" class="btn btn-sm btn-danger">댓글 삭제</button>
+                        <button type="submit" class="btn btn-danger">댓글 삭제</button>
                     </form>
                 </div>
             </div>
         </div>
+        <!--        데모 데이터-->
+        <!--        <div class="mt-4">-->
+        <!--            <h3>댓글</h3>-->
+        <!--            <div class="card mb-2">-->
+        <!--                <div class="card-body">-->
+        <!--                    <p class="mb-0"><strong>user1</strong></p>-->
+        <!--                    <p>가나다라마바사아자차카타파하기니디리미비시이지치키티피히</p>-->
+        <!--                </div>-->
+        <!--                &lt;!&ndash; 댓글 삭제 버튼 &ndash;&gt;-->
+        <!--                <div class="card-footer">-->
+        <!--                    <form id="deleteComment2"-->
+        <!--                          th:action="@{/board/view/{boardId}/delete/{commentId}(boardId=${board.id}, commentId=${comment.id})}"-->
+        <!--                          method="post">-->
+        <!--                        <button type="submit" class="btn btn-sm btn-danger">댓글 삭제</button>-->
+        <!--                    </form>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="card mb-2">-->
+        <!--                <div class="card-body">-->
+        <!--                    <p class="mb-0"><strong>user2</strong></p>-->
+        <!--                    <p>test2</p>-->
+        <!--                </div>-->
+        <!--                &lt;!&ndash; 댓글 삭제 버튼 &ndash;&gt;-->
+        <!--                <div class="card-footer">-->
+        <!--                    <form id="deleteComment2"-->
+        <!--                          th:action="@{/board/view/{boardId}/delete/{commentId}(boardId=${board.id}, commentId=${comment.id})}"-->
+        <!--                          method="post">-->
+        <!--                        <button type="submit" class="btn btn-sm btn-danger">댓글 삭제</button>-->
+        <!--                    </form>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 </div>
 </div>
@@ -71,5 +119,15 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function toggleReplyForm() {
+        const replyForm = document.getElementById("replyForm");
+        if (replyForm.style.display === "none") {
+            replyForm.style.display = "block";
+            return
+        }
+        replyForm.style.display = "none";
+    }
+</script>
 </body>
 </html>
