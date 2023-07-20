@@ -31,7 +31,7 @@
   <div class="container mt-4">
     <div class="card mt-4">
       <div class="card-body">
-        <form th:action="@{/board/view/write/{id}(id=${board.id})}" method="post">
+        <form th:action="@{/board/view/{id}/write/(id=${board.id})}" method="post">
           <input type="hidden" name="boardId" th:value="${board.id}">
           <div class="form-group">
             <label for="comment">댓글 입력</label>
@@ -48,7 +48,7 @@
       <h3>댓글</h3>
       <div class="card mb-2" th:each="comment : ${comments}">
         <div class="card-body">
-          <p class="mb-0"><strong th:text="${comment.user}"></strong></p>
+          <p class="mb-0"><strong th:text="${comment.content}"></strong></p>
           <p th:text="${comment.content}"></p>
         </div>
         <!-- 댓글 삭제 버튼 -->
