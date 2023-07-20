@@ -112,7 +112,7 @@ public class BoardController {
         return "redirect:list";
     }
 
-    @DeleteMapping("/view/{boardId}/delete/{commentId}")
+    @PostMapping("/view/{boardId}/delete/{commentId}")
     public String deleteComment(@PathVariable Long boardId, @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
         return "redirect:/board/view/{boardId}";
@@ -124,7 +124,7 @@ public class BoardController {
         return "redirect:/board/view/{boardId}";
     }
 
-    private User getCurrentUser(){
+    private User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUserDetails userDetails = (CustomUserDetails) principal;
         return userDetails.getUser();
