@@ -38,10 +38,7 @@ public class BoardController {
 
     @PostMapping("/save")
     public String boardSave(BoardRequest.CreateDTO board) throws IOException {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUserDetails userDetails = (CustomUserDetails) principal;
-        User user = userDetails.getUser();
-        boardService.save(board, user);
+        boardService.save(board, getCurrentUser());
 
         return "redirect:list";
         //return "redirect:view/" + board.getId();
@@ -85,6 +82,7 @@ public class BoardController {
     public String boardView(@PathVariable Long id, Model model) {
         model.addAttribute("board", boardService.findBoard(id));
         model.addAttribute("comments", readComments(id));
+        model.addAttribute("currentUser", getCurrentUser());
         return "boardView";
     }
 
@@ -121,12 +119,14 @@ public class BoardController {
     }
 
     @PostMapping("view/{boardId}/write")
-    public String saveComment(@PathVariable Long boardId,
-                              CommentRequest.CreateDTO comment) {
+    public String saveComment(@PathVariable Long boardId, CommentRequest.CreateDTO comment) {
+        commentService.saveComment(comment.toEntity(getCurrentUser()));
+        return "redirect:/board/view/{boardId}";
+    }
+
+    private User getCurrentUser(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUserDetails userDetails = (CustomUserDetails) principal;
-        User user = userDetails.getUser();
-        commentService.saveComment(comment.toEntity(user));
-        return "redirect:/board/view/{boardId}";
+        return userDetails.getUser();
     }
 }
