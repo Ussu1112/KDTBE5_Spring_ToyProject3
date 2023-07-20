@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    //List<CommentResponse.SelectDTO> findAllByBoard_Id(Long boardId);
+    List<CommentResponseProjection> findAllByBoard_Id(Long boardId);
 }
