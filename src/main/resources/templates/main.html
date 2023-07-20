@@ -9,7 +9,11 @@
     <br>
     <br>
     <h2>마이홈</h2>
-    <a th:text="${session.username}"></a>  님 안녕하세요! </br>
-    <a th:href="@{|/user/details/${session.id}|}">내 정보 상세보기</a>
+    <br>
+    <div th:text="${user.username}"></div>
+    <div>님 안녕하세요!</div>
+    <br>
+    <a th:href="@{|/user/details/${user.getUsername()}|}">내정보 상세보기</br></a>
+
 </body>
 </html>
