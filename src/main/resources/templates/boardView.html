@@ -48,7 +48,7 @@
       <h3>댓글</h3>
       <div class="card mb-2" th:each="comment : ${comments}">
         <div class="card-body">
-          <p class="mb-0"><strong th:text="${comment.content}"></strong></p>
+          <p class="mb-0"><strong th:text="${comment.user.username}"></strong></p>
           <p th:text="${comment.content}"></p>
         </div>
         <!-- 댓글 삭제 버튼 -->
