@@ -21,10 +21,8 @@
             </div>
             <!-- 게시글 수정, 삭제 버튼 -->
             <div class="card-footer">
-                <!--<div th:if="${currentUser != null and currentUser.nickName == board.nickName}">-->
                 <a class="btn btn-primary me-2" th:href="@{/board/edit/{id}(id=${board.id})}">게시글 수정</a>
                 <a class="btn btn-danger" th:href="@{/board/delete/{id}(id=${board.id})}">게시글 삭제</a>
-                <!--</div>-->
             </div>
         </div>
     </div>
@@ -80,38 +78,6 @@
                 </div>
             </div>
         </div>
-        <!--        데모 데이터-->
-        <!--        <div class="mt-4">-->
-        <!--            <h3>댓글</h3>-->
-        <!--            <div class="card mb-2">-->
-        <!--                <div class="card-body">-->
-        <!--                    <p class="mb-0"><strong>user1</strong></p>-->
-        <!--                    <p>가나다라마바사아자차카타파하기니디리미비시이지치키티피히</p>-->
-        <!--                </div>-->
-        <!--                &lt;!&ndash; 댓글 삭제 버튼 &ndash;&gt;-->
-        <!--                <div class="card-footer">-->
-        <!--                    <form id="deleteComment2"-->
-        <!--                          th:action="@{/board/view/{boardId}/delete/{commentId}(boardId=${board.id}, commentId=${comment.id})}"-->
-        <!--                          method="post">-->
-        <!--                        <button type="submit" class="btn btn-sm btn-danger">댓글 삭제</button>-->
-        <!--                    </form>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--            <div class="card mb-2">-->
-        <!--                <div class="card-body">-->
-        <!--                    <p class="mb-0"><strong>user2</strong></p>-->
-        <!--                    <p>test2</p>-->
-        <!--                </div>-->
-        <!--                &lt;!&ndash; 댓글 삭제 버튼 &ndash;&gt;-->
-        <!--                <div class="card-footer">-->
-        <!--                    <form id="deleteComment2"-->
-        <!--                          th:action="@{/board/view/{boardId}/delete/{commentId}(boardId=${board.id}, commentId=${comment.id})}"-->
-        <!--                          method="post">-->
-        <!--                        <button type="submit" class="btn btn-sm btn-danger">댓글 삭제</button>-->
-        <!--                    </form>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
     </div>
 </div>
 </div>
