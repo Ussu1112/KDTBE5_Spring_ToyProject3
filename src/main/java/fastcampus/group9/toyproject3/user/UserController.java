@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -29,11 +30,19 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<?> join(@Valid UserRequest.JoinDTO joinDTO, Errors errors) {
+    public String join(@Valid UserRequest.JoinDTO joinDTO, Errors errors) {
         System.out.println("controller join 실행");
         UserResponse.JoinDTO responseDTO = userService.join(joinDTO);
-        return ResponseEntity.ok().body(ApiUtils.success(responseDTO));
+        return "redirect:/";
+//        ResponseEntity<?>
+//        return ResponseEntity.ok().body(ApiUtils.success(responseDTO));
     }
+
+    @GetMapping("/main")
+    public String main() {
+        return "main";
+    }
+
 
     @GetMapping("/main/{id}")
     public String main(@PathVariable Long id, Model model) {
