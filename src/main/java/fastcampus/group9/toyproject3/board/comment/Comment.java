@@ -36,7 +36,7 @@ public class Comment {
     private int depth;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "parent_comment_id")
     private Comment parentComment;
 
     @Column(nullable = false)

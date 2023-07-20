@@ -101,7 +101,7 @@ public class BoardService {
 
     @Transactional
     public Page<BoardResponse.SelectDTO> pageList(String category, Pageable pageable) {
-        //return boardRepository.findByUserRole(category, pageable);
+        //return boardRepository.findByUserRole(category, pageable); Todo: 고객 등급별 게시판
        return boardRepository.findAll(pageable).map(BoardResponse.SelectDTO::new);
     }
 

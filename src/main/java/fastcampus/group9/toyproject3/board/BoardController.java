@@ -6,6 +6,7 @@ import fastcampus.group9.toyproject3.board.comment.CommentResponse;
 import fastcampus.group9.toyproject3.board.comment.CommentService;
 import fastcampus.group9.toyproject3.user.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,6 +24,7 @@ import java.util.stream.LongStream;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController {
 
     private final BoardService boardService;
@@ -36,10 +38,7 @@ public class BoardController {
 
     @PostMapping("/save")
     public String boardSave(BoardRequest.CreateDTO board) throws IOException {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUserDetails userDetails = (CustomUserDetails) principal;
-        User user = userDetails.getUser();
-        boardService.save(board, user);
+        boardService.save(board, getCurrentUser());
 
         return "redirect:list";
         //return "redirect:view/" + board.getId();
@@ -83,6 +82,7 @@ public class BoardController {
     public String boardView(@PathVariable Long id, Model model) {
         model.addAttribute("board", boardService.findBoard(id));
         model.addAttribute("comments", readComments(id));
+        model.addAttribute("currentUser", getCurrentUser());
         return "boardView";
     }
 
@@ -109,18 +109,24 @@ public class BoardController {
     public String boardDelete(@PathVariable Long id) {
         boardService.delete(id);
 
-        return "redirect:/board/list";
+        return "redirect:list";
     }
 
-    @DeleteMapping("/view/{boardId}/delete/{commentId}")
+    @PostMapping("/view/{boardId}/delete/{commentId}")
     public String deleteComment(@PathVariable Long boardId, @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
-        return "redirect:/view/{boardId}";
+        return "redirect:/board/view/{boardId}";
     }
 
     @PostMapping("view/{boardId}/write")
     public String saveComment(@PathVariable Long boardId, CommentRequest.CreateDTO comment) {
-        commentService.saveComment(comment.toEntity());
-        return "redirect:board/view/{boardId}";
+        commentService.saveComment(comment.toEntity(getCurrentUser()));
+        return "redirect:/board/view/{boardId}";
+    }
+
+    private User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) principal;
+        return userDetails.getUser();
     }
 }
