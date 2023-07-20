@@ -53,9 +53,10 @@
         </div>
         <!-- 댓글 삭제 버튼 -->
         <div class="card-footer">
-          <!--<div th:if="${currentUser != null and currentUser.nickName == comment.nickName}">-->
-          <a class="btn btn-sm btn-danger" th:href="@{/comment/delete/{id}(id=${comment.id})}">댓글 삭제</a>
-          <!--</div>-->
+          <th:block th:if="${currentUser != null and currentUser.nickname == comment.user.nickname}">
+            <a class="btn btn-sm btn-danger" th:href="@{/comment/delete/{id}(id=${comment.id})}">댓글 삭제</a>
+          </th:block>
+          <br/>
         </div>
       </div>
     </div>
