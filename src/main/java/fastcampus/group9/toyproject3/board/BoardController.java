@@ -6,6 +6,7 @@ import fastcampus.group9.toyproject3.board.comment.CommentResponse;
 import fastcampus.group9.toyproject3.board.comment.CommentService;
 import fastcampus.group9.toyproject3.user.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,6 +24,7 @@ import java.util.stream.LongStream;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController {
 
     private final BoardService boardService;
@@ -109,18 +111,19 @@ public class BoardController {
     public String boardDelete(@PathVariable Long id) {
         boardService.delete(id);
 
-        return "redirect:/board/list";
+        return "redirect:list";
     }
 
     @DeleteMapping("/view/{boardId}/delete/{commentId}")
     public String deleteComment(@PathVariable Long boardId, @PathVariable Long commentId) {
         commentService.deleteComment(commentId);
-        return "redirect:/view/{boardId}";
+        return "redirect:/board/view/{boardId}";
     }
 
     @PostMapping("view/{boardId}/write")
     public String saveComment(@PathVariable Long boardId, CommentRequest.CreateDTO comment) {
+        log.info("comment: {}", comment.getContent());
         commentService.saveComment(comment.toEntity());
-        return "redirect:board/view/{boardId}";
+        return "redirect:/board/view/{boardId}";
     }
 }
