@@ -121,9 +121,12 @@ public class BoardController {
     }
 
     @PostMapping("view/{boardId}/write")
-    public String saveComment(@PathVariable Long boardId, CommentRequest.CreateDTO comment) {
-        log.info("comment: {}", comment.getContent());
-        commentService.saveComment(comment.toEntity());
+    public String saveComment(@PathVariable Long boardId,
+                              CommentRequest.CreateDTO comment) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) principal;
+        User user = userDetails.getUser();
+        commentService.saveComment(comment.toEntity(user));
         return "redirect:/board/view/{boardId}";
     }
 }

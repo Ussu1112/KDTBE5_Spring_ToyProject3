@@ -32,10 +32,10 @@
     <div class="card mt-4">
       <div class="card-body">
         <form th:action="@{/board/view/{id}/write/(id=${board.id})}" method="post">
-          <input type="hidden" name="boardId" th:value="${board.id}">
+          <input type="hidden" name="board" th:value="${board.id}">
           <div class="form-group">
             <label for="comment">댓글 입력</label>
-            <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+            <textarea class="form-control" id="comment" name="content" rows="3" required></textarea>
           </div>
           <button type="submit" class="btn btn-primary">댓글 등록</button>
         </form>
