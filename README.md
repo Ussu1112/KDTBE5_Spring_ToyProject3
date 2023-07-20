@@ -10,12 +10,15 @@
 | 송태형  | [github](https://github.com/Ussu1112) |
 | 오형석  | [github](https://github.com/brotherstone97) |
 | 한혜지  | [github](https://github.com/bornin23) |
+| 김주원  | [github](https://github.com/dali186)
 
 ## 프로젝트 환경
 
 메인 서버 : `JDK11` `SpringBoot` `JPA` `SpringSecurity`   
 
 관리자 서버: `MyBatis`
+
+관리자 서버 레포 : [github](https://github.com/Ussu1112/KDTBE5_Spring_ToyProject3_admin)
 
 
 ## 프로젝트 요구사항
