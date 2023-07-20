@@ -25,34 +25,35 @@
             <label for="nickname" class="sr-only">nickname</label>
             <input type="text" id="nickname" name="nickname" class="form-control" placeholder="nickname" required>
         </p>
-        <button class="btn btn-lg btn-primary btn-block" onclick="join()">회원가입</button>
+        <input type="submit" value="회원가입">
+<!--        <button class="btn btn-lg btn-primary btn-block" onclick="join()">회원가입</button>-->
     </form>
 </div>
 
-<script th:inline="javascript">
-    function join(){
-        const JoinDTO = {
-            "username" : $("#username").val(),
-            "password" : $("#password").val(),
-            "email" : $("#email").val(),
-            "nickname" : $("#nickname").val(),
-        };
-        $.ajax({
-            url: "/user/join",
-            method:'POST',
-            data: JoinDTO,
-            contentType: "application/x-www-form-urlencoded",
-            success: function(data, textStatus, xhr) {
-                alert("회원가입에 성공하였습니다.");
-                // document.location.href = '/board/list';
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                // 오류 처리
-                console.error(xhr.responseText);
-            }
-        });
-    }
-</script>
+<!--<script th:inline="javascript">-->
+<!--    function join(){-->
+<!--        const JoinDTO = {-->
+<!--            "username" : $("#username").val(),-->
+<!--            "password" : $("#password").val(),-->
+<!--            "email" : $("#email").val(),-->
+<!--            "nickname" : $("#nickname").val(),-->
+<!--        };-->
+<!--        $.ajax({-->
+<!--            url: "/user/join",-->
+<!--            method:'POST',-->
+<!--            data: JoinDTO,-->
+<!--            contentType: "application/x-www-form-urlencoded",-->
+<!--            success: function(data, textStatus, xhr) {-->
+<!--                alert("회원가입에 성공하였습니다.");-->
+<!--                // document.location.href = '/board/list';-->
+<!--            },-->
+<!--            error: function(xhr, textStatus, errorThrown) {-->
+<!--                // 오류 처리-->
+<!--                console.error(xhr.responseText);-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
 
 </body>
 </html>
