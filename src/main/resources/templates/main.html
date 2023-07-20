@@ -6,6 +6,7 @@
 </head>
 <body>
     <h2>마이홈</h2>
-    <p th:text="${session.username}"></p> 님 안녕하세요! </br>
+    <a th:text="${user.username}"></a>  님 안녕하세요! </br>
+    <a th:href="@{|/user/details/${user.id}|}">내 정보 상세보기</a>
 </body>
 </html>

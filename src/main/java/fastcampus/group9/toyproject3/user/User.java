@@ -1,16 +1,14 @@
 package fastcampus.group9.toyproject3.user;
 
 import fastcampus.group9.toyproject3._core.utils.BaseTimeEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @ToString
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "user_tb")
 @Entity
 public class User extends BaseTimeEntity {
@@ -47,4 +45,16 @@ public class User extends BaseTimeEntity {
         this.role = role;
         this.isBlacked = isBlacked;
     }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+
+
+
 }

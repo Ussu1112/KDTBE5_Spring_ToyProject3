@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -26,6 +28,34 @@ public class UserService {
 
         User userPS = userRepository.save(joinDTO.toEntity());
         return new UserResponse.JoinDTO(userPS);
+    }
+
+    public User findById(Long id) {
+        Optional<User> userOP = userRepository.findById(id);
+        if (userOP.isPresent()) {
+            return userOP.get();
+        } else {
+            return null;
+        }
+
+    }
+
+    public User updateForm(Long id) {
+        Optional<User> userOP = userRepository.findById(id);
+        if (userOP.isPresent()) {
+            return userOP.get();
+        } else {
+            return null;
+        }
+    }
+
+    @Transactional
+    public void update(UserRequest.UpdateDTO updateDTO) {
+        Optional<User> userOP = userRepository.findById(updateDTO.getId());
+        User user = userOP.get();
+        user.updateEmail(updateDTO.getEmail());
+        user.updateNickname(updateDTO.getNickname());
+
     }
 
 }
