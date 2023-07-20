@@ -17,8 +17,6 @@ public class UserService {
 
     @Transactional
     public UserResponse.JoinDTO join(UserRequest.JoinDTO joinDTO) {
-        System.out.println("service join 실행");
-
         boolean isExistUser = userRepository.existsByUsername(joinDTO.getUsername());
 
         if(isExistUser){
@@ -37,7 +35,15 @@ public class UserService {
         } else {
             return null;
         }
+    }
 
+    public User findByUsername(String username) {
+        Optional<User> userOP = userRepository.findByUsername(username);
+        if (userOP.isPresent()) {
+            return userOP.get();
+        } else {
+            return null;
+        }
     }
 
     public User updateForm(Long id) {
@@ -56,6 +62,25 @@ public class UserService {
         user.updateEmail(updateDTO.getEmail());
         user.updateNickname(updateDTO.getNickname());
 
+    }
+
+    public String usernameCheck(String username) {
+
+//        Optional<User> userOP = userRepository.findByUsername(username);
+//        if (userOP.isPresent()) {
+//            return null;
+//        } else {
+//            return "ok";
+//        }
+//
+        boolean isExistUser = userRepository.existsByUsername(username);
+        if (isExistUser) {
+            // 조회결과가 있다 -> 사용할 수 없다.
+            return null;
+        } else {
+            // 조회결과가 없다 -> 사용할 수 있다.
+            return "ok";
+        }
     }
 
 }

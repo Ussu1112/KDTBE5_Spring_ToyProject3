@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">>
 <head>
-    <meta charset="UTF-8">
-    <title>main</title>
+    <link rel="stylesheet" type="text/css" href="css/signin.css">
+    <head th:insert="fragments.html::head(title)"></head>
 </head>
 <body>
+<header th:insert="fragments.html::menu(menu)"></header>
+    <br>
+    <br>
     <h2>마이홈</h2>
-    <a th:text="${user.username}"></a>  님 안녕하세요! </br>
-    <a th:href="@{|/user/details/${user.id}|}">내 정보 상세보기</a>
+    <br>
+    <div th:text="${user.username}"></div>
+    <div>님 안녕하세요!</div>
+    <br>
+    <a th:href="@{|/user/details/${user.getUsername()}|}">내정보 상세보기</br></a>
+
 </body>
 </html>

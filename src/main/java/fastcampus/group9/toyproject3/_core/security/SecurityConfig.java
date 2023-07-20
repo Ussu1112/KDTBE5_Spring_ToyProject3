@@ -45,7 +45,8 @@ public class SecurityConfig {
         // 인증, 권한 필터 설정
         http
                 .authorizeRequests()
-                .antMatchers("/","/h2-console/**").permitAll()
+                .antMatchers("/","/h2-console/**", "/user/joinForm", "/user/join", "/user/checkUsername").permitAll()
+                .antMatchers("/user/**").authenticated()
                 .antMatchers("/board/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll();

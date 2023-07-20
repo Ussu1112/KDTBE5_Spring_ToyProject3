@@ -71,7 +71,9 @@ public class UserRequest {
     @Getter
     public static class UpdateDTO {
 
-        private Long Id;
+        private Long id;
+
+        private String username;
 
         @NotEmpty
         @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", message = "이메일 형식으로 작성해주세요")
