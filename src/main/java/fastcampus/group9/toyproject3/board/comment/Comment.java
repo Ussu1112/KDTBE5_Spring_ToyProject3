@@ -1,5 +1,6 @@
 package fastcampus.group9.toyproject3.board.comment;
 
+import fastcampus.group9.toyproject3._core.utils.BaseTimeEntity;
 import fastcampus.group9.toyproject3.board.Board;
 import fastcampus.group9.toyproject3.user.User;
 import lombok.*;
@@ -16,7 +17,8 @@ import java.util.List;
 @Entity
 @Getter
 @ToString
-public class Comment {
+@Table(name = "comment_tb")
+public class Comment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,17 +48,4 @@ public class Comment {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
-
-    //데이터 생성 전 작업
-    @PrePersist
-    private void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = createdAt;
-    }
-
-    @PreUpdate
-    private void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-
 }
