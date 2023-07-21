@@ -44,7 +44,6 @@ public class BoardService {
     @Transactional
     public void save(BoardRequest.CreateDTO parameter, User user) throws IOException {
         parameter.setUser(user);
-        //user_role 0?
         parameter.setAuthor(user.getNickname());
         parameter.setUserRole(user.getRole());
         parameter.setReported(false);
@@ -107,7 +106,6 @@ public class BoardService {
 
     @Transactional
     public Page<BoardResponse.SelectDTO> pageSearchList(Pageable pageable, String type, String question) {
-        //TODO, 분기문 말고 구현할 수 있는 방법 찾기
         switch (type) {
             case "title":
                 return boardRepository.findByTitle(question, pageable);
