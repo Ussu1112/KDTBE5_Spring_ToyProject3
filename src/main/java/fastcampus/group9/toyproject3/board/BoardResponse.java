@@ -5,8 +5,6 @@ import fastcampus.group9.toyproject3.user.UserRole;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 public class BoardResponse {
 
     @Getter @Setter
@@ -23,7 +21,7 @@ public class BoardResponse {
         public SelectDTO(Board board) {
             this.id = board.getId();
             this.title = board.getTitle();
-            this.content = board.getContent().replaceAll("\\<.*?\\>", "");
+            this.content = board.getContent();
             this.thumbnail = board.getThumbnail();
             this.author = board.getAuthor();
             this.user = board.getUser();

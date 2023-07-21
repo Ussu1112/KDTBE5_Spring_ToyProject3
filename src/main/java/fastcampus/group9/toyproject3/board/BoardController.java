@@ -37,11 +37,11 @@ public class BoardController {
     }
 
     @PostMapping("/save")
+    @ResponseBody
     public String boardSave(BoardRequest.CreateDTO board) throws IOException {
         boardService.save(board, getCurrentUser());
 
-        return "redirect:list";
-        //return "redirect:view/" + board.getId();
+        return responseAlert("등록", "/board/list");
     }
 
     @GetMapping("/list")
@@ -99,17 +99,20 @@ public class BoardController {
     }
 
     @PostMapping("/update/{id}")
+    @ResponseBody
     public String boardModify(@PathVariable Long id, BoardRequest.CreateDTO board) {
         boardService.update(id, board);
+        String link = "/board/view/" + id;
 
-        return "redirect:/board/view/{id}";
+        return responseAlert("수정", link);
     }
 
     @GetMapping("/delete/{id}")
+    @ResponseBody
     public String boardDelete(@PathVariable Long id) {
         boardService.delete(id);
 
-        return "redirect:list";
+        return responseAlert("삭제", "/board/list");
     }
 
     @PostMapping("/view/{boardId}/delete/{commentId}")
@@ -128,5 +131,10 @@ public class BoardController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUserDetails userDetails = (CustomUserDetails) principal;
         return userDetails.getUser();
+    }
+
+    private String responseAlert(String content, String link) {
+
+        return "<script>alert('" + content + "되었습니다.');location.href='" + link + "'</script>";
     }
 }
