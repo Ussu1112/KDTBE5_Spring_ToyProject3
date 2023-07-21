@@ -22,19 +22,15 @@ public class Board extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @Column(length = 50000)
+    @Column(length = 50000, columnDefinition = "TEXT")
     private String content;
     private String thumbnail;
     private String author;
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
     private boolean isReported;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
     @OneToOne(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private Thumbnail thumbnailEntity;
-
-    public void update(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
 }
