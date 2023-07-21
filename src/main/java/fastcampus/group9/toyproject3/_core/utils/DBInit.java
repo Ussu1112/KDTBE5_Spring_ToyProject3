@@ -6,6 +6,7 @@ import fastcampus.group9.toyproject3.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ public class DBInit {
 
     private final PasswordEncoder passwordEncoder;
 
+    @Profile("dev")
     @Bean
     CommandLineRunner initDB(UserRepository userRepository){
         return args -> {

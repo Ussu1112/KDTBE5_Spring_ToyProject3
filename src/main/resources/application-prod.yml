@@ -1,0 +1,33 @@
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/testdb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+      default_batch_fetch_size: 100
+    open-in-view: false
+
+
+logging:
+  level:
+    '[fastcampus.group9.toyproject3]': DEBUG
+    '[org.hibernate.type]': TRACE
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/**.xml
+  configuration:
+    map-underscore-to-camel-case: true
