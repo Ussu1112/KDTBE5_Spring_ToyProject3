@@ -1,6 +1,7 @@
 package fastcampus.group9.toyproject3._core.security;
 
 import fastcampus.group9.toyproject3.user.User;
+import fastcampus.group9.toyproject3.user.UserRole;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +21,10 @@ public class CustomUserDetails implements UserDetails {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(()-> "ROLE_"+user.getRole());
         return authorities;
+    }
+
+    public boolean isAdmin() {
+        return user.getRole().equals(UserRole.ADMIN);
     }
 
     @Override
