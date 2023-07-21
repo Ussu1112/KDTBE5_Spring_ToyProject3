@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/signin.css">
+    <head th:insert="fragments.html::head(title)"></head>
+</head>
+<body>
+<header th:insert="fragments.html::menu(menu)"></header>
+<br>
+<br>
+<form action="/user/update" method="post">
+    <input type="hidden" th:value="${user.id}" name="id"> <br>
+    이름: <a th:text="${user.username}"></a> <input type="hidden" th:value="${user.username}" name="username"> <br>
+    이메일: <input type="text" th:value="${user.email}" name="email"> <br>
+    별명: <input type="text" th:value="${user.nickname}" name="nickname"> <br>
+    <button class="btn btn-lg btn-primary btn-block" onclick="update()">수정</button>
+</form>
+
+<script th:inline="javascript">
+    function update(){
+        const UpdateDTO = {
+            "username" : $("#username").val(),
+            "email" : $("#email").val(),
+            "nickname" : $("#nickname").val(),
+        };
+        $.ajax({
+            url: "/user/update",
+            method:'POST',
+            data: UpdateDTO,
+            contentType: "application/x-www-form-urlencoded",
+            success: function(data, textStatus, xhr) {
+                alert("성공");
+                // document.location.href = '/board/list';
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                // 오류 처리
+                console.error(xhr.responseText);
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/signin.css">
+    <head th:insert="fragments.html::head(title)"></head>
+</head>
+<body>
+<header th:insert="fragments.html::menu(menu)"></header>
+    <br>
+    <br>
+    <h2>마이홈</h2>
+    <br>
+    <div th:text="${user.username}"></div>
+    <div>님 안녕하세요!</div>
+    <br>
+    <a th:href="@{|/user/details/${user.getUsername()}|}">내정보 상세보기</br></a>
+    <br>
+    <div th:if="${user.isAdmin()}">
+        <button th:text="관리자페이지" th:onclick="redirectMain()"></button>
+    </div>
+
+
+</body>
+<script>
+    const mainAddress = "http://localhost:8081";
+
+    function redirectMain(){
+        window.location.href = mainAddress;
+    }
+</script>
+</html>

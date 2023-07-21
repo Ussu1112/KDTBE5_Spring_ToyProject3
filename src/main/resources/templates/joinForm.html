@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/signin.css">
+    <head th:insert="fragments.html::head(title)"></head>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<header th:insert="fragments.html::menu(menu)"></header>
+<div class="container">
+    <form class="form-signin" method="post" th:action="@{/user/join}">
+        <br>
+
+        <br>
+
+        <br>
+        <h2 class="form-signin-heading">회원가입</h2>
+        <p>
+            <label for="username" class="sr-only">username</label>
+            <input type="text" id="username" name="username"class="form-control" placeholder="username" onblur="usernameCheck()" autofocus><br>
+            <p id="check-result"></p>
+        </p>
+        <p>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        </p>
+        <p>
+            <label for="email" class="sr-only">email</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+        </p>
+        <p>
+            <label for="nickname" class="sr-only">nickname</label>
+            <input type="text" id="nickname" name="nickname" class="form-control" placeholder="nickname" required>
+        </p>
+        <input type="submit" value="회원가입">
+<!--        <button class="btn btn-lg btn-primary btn-block" onclick="join()">회원가입</button>-->
+    </form>
+</div>
+
+<!--<script th:inline="javascript">-->
+<!--    function join(){-->
+<!--        const JoinDTO = {-->
+<!--            "username" : $("#username").val(),-->
+<!--            "password" : $("#password").val(),-->
+<!--            "email" : $("#email").val(),-->
+<!--            "nickname" : $("#nickname").val(),-->
+<!--        };-->
+<!--        $.ajax({-->
+<!--            url: "/user/join",-->
+<!--            method:'POST',-->
+<!--            data: JoinDTO,-->
+<!--            contentType: "application/x-www-form-urlencoded",-->
+<!--            success: function(data, textStatus, xhr) {-->
+<!--                alert("회원가입에 성공하였습니다.");-->
+<!--                // document.location.href = '/board/list';-->
+<!--            },-->
+<!--            error: function(xhr, textStatus, errorThrown) {-->
+<!--                // 오류 처리-->
+<!--                console.error(xhr.responseText);-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
+
+</body>
+<script th:inline="javascript">
+    const usernameCheck = () => {
+        const username = document.getElementById("username").value;
+        const checkResult = document.getElementById("check-result");
+        console.log("입력값: ", username);
+        $.ajax({
+            type: "post",
+            url: "/user/checkUsername",
+            data: {
+                "username": username
+            },
+            success: function(res) {
+                console.log("요청성공", res);
+                if (res == "ok") {
+                    console.log("사용가능한 이름");
+                    console.log("ch: "+checkResult);
+                    checkResult.style.color = "green";
+                    checkResult.innerHTML = "사용가능한 이름";
+                } else {
+                    console.log("이미 사용중인 이름");
+                    console.log("ch: "+checkResult);
+                    checkResult.style.color = "red";
+                    checkResult.innerHTML = "이미 사용중인 이름";
+                }
+            },
+            error: function(err) {
+                console.log("에러발생", err);
+            }
+        });
+    }
+</script>
+</html>
