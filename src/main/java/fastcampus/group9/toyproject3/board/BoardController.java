@@ -1,8 +1,8 @@
 package fastcampus.group9.toyproject3.board;
 
 import fastcampus.group9.toyproject3._core.security.CustomUserDetails;
+import fastcampus.group9.toyproject3.board.comment.Comment;
 import fastcampus.group9.toyproject3.board.comment.CommentRequest;
-import fastcampus.group9.toyproject3.board.comment.CommentResponse;
 import fastcampus.group9.toyproject3.board.comment.CommentService;
 import fastcampus.group9.toyproject3.user.User;
 import lombok.RequiredArgsConstructor;
@@ -37,11 +37,11 @@ public class BoardController {
     }
 
     @PostMapping("/save")
-    @ResponseBody
     public String boardSave(BoardRequest.CreateDTO board) throws IOException {
         boardService.save(board, getCurrentUser());
 
-        return responseAlert("등록", "/board/list");
+        return "redirect:list";
+        //return "redirect:view/" + board.getId();
     }
 
     @GetMapping("/list")
@@ -86,7 +86,7 @@ public class BoardController {
         return "boardView";
     }
 
-    private List<CommentResponse.SelectDTO> readComments(Long boardId) {
+    private List<Comment> readComments(Long boardId) {
         return commentService.findCommentList(boardId);
     }
 
@@ -99,20 +99,17 @@ public class BoardController {
     }
 
     @PostMapping("/update/{id}")
-    @ResponseBody
     public String boardModify(@PathVariable Long id, BoardRequest.CreateDTO board) {
         boardService.update(id, board);
-        String link = "/board/view/" + id;
 
-        return responseAlert("수정", link);
+        return "redirect:/board/view/{id}";
     }
 
     @GetMapping("/delete/{id}")
-    @ResponseBody
     public String boardDelete(@PathVariable Long id) {
         boardService.delete(id);
 
-        return responseAlert("삭제", "/board/list");
+        return "redirect:list";
     }
 
     @PostMapping("/view/{boardId}/delete/{commentId}")
@@ -123,6 +120,7 @@ public class BoardController {
 
     @PostMapping("view/{boardId}/write")
     public String saveComment(@PathVariable Long boardId, CommentRequest.CreateDTO comment) {
+        log.info("CommentRequest.CreateDTO: {}", comment);
         commentService.saveComment(comment.toEntity(getCurrentUser()));
         return "redirect:/board/view/{boardId}";
     }
@@ -133,8 +131,10 @@ public class BoardController {
         return userDetails.getUser();
     }
 
-    private String responseAlert(String content, String link) {
-
-        return "<script>alert('" + content + "되었습니다.');location.href='" + link + "'</script>";
+    @GetMapping("/comment/all/test")
+    public void findAllComment() {
+        List<Comment> all = commentService.findAll();
+        all.forEach(comment -> log.info("comment: {}", comment));
     }
+
 }

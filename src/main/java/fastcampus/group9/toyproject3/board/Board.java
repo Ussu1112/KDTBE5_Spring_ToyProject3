@@ -33,9 +33,4 @@ public class Board extends BaseTimeEntity {
     private User user;
     @OneToOne(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private Thumbnail thumbnailEntity;
-
-    public void update(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
 }
