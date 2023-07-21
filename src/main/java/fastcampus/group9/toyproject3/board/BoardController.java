@@ -1,8 +1,8 @@
 package fastcampus.group9.toyproject3.board;
 
 import fastcampus.group9.toyproject3._core.security.CustomUserDetails;
+import fastcampus.group9.toyproject3.board.comment.Comment;
 import fastcampus.group9.toyproject3.board.comment.CommentRequest;
-import fastcampus.group9.toyproject3.board.comment.CommentResponse;
 import fastcampus.group9.toyproject3.board.comment.CommentService;
 import fastcampus.group9.toyproject3.user.User;
 import lombok.RequiredArgsConstructor;
@@ -86,7 +86,7 @@ public class BoardController {
         return "boardView";
     }
 
-    private List<CommentResponse.SelectDTO> readComments(Long boardId) {
+    private List<Comment> readComments(Long boardId) {
         return commentService.findCommentList(boardId);
     }
 
@@ -120,6 +120,7 @@ public class BoardController {
 
     @PostMapping("view/{boardId}/write")
     public String saveComment(@PathVariable Long boardId, CommentRequest.CreateDTO comment) {
+        log.info("CommentRequest.CreateDTO: {}", comment);
         commentService.saveComment(comment.toEntity(getCurrentUser()));
         return "redirect:/board/view/{boardId}";
     }
@@ -129,4 +130,11 @@ public class BoardController {
         CustomUserDetails userDetails = (CustomUserDetails) principal;
         return userDetails.getUser();
     }
+
+    @GetMapping("/comment/all/test")
+    public void findAllComment() {
+        List<Comment> all = commentService.findAll();
+        all.forEach(comment -> log.info("comment: {}", comment));
+    }
+
 }
