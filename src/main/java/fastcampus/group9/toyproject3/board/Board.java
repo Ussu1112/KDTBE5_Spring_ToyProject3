@@ -22,10 +22,11 @@ public class Board extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @Column(length = 50000)
+    @Column(length = 50000, columnDefinition = "TEXT")
     private String content;
     private String thumbnail;
     private String author;
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
     private boolean isReported;
     @ManyToOne(fetch = FetchType.LAZY)
