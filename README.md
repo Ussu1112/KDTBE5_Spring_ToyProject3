@@ -5,12 +5,12 @@
 
 ## 팀 구성
 
-| Name | Github Link                           |
-|------|---------------------------------------|
-| 송태형  | [github](https://github.com/Ussu1112) |
-| 오형석  | [github](https://github.com/brotherstone97) |
-| 한혜지  | [github](https://github.com/bornin23) |
-| 김주원  | [github](https://github.com/dali186)
+| Name | Github Link                           | 역할 분배 |
+|------|---------------------------------------|---------|
+| 송태형  | [github](https://github.com/Ussu1112) | 관리자 페이지 |
+| 오형석  | [github](https://github.com/brotherstone97) | 게시판 기능 |
+| 한혜지  | [github](https://github.com/bornin23) | 게시판 기능 |
+| 김주원  | [github](https://github.com/dali186) | 유저 기능 |
 
 ## 프로젝트 환경
 
